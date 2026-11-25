@@ -3,245 +3,171 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>光织 · 圣诞树 v17.6</title>
-<meta name="description" content="一棵由光丝编成的圣诞树：拖动旋转，光沿枝干往上走。">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2304100d'/><path d='M16 4l2.2 7.2 7.4.1-5.9 4.3 2.3 7.2-6-4.2-6 4.2 2.3-7.2-5.9-4.3 7.4-.1z' fill='%23ffbf6b'/></svg>">
+<title>Merry Christmas · 圣诞树 v17.6</title>
+<meta name="description" content="紫夜里的星屑圣诞树：螺旋光珠圈、烟花与祝福。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23150611'/><path d='M16 3l1.9 8.6 8.7.1-6.9 5.1 2.7 8.5-6.4-4.9-6.4 4.9 2.7-8.5-6.9-5.1 8.7-.1z' fill='%23ffb3d4'/></svg>">
 <link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
-<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&amp;family=Noto+Serif+SC:wght@500;700;900&amp;family=Noto+Sans+SC:wght@300;400;500&amp;display=swap">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Great+Vibes&amp;family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Noto+Serif+SC:wght@300;400;500;600&amp;family=Noto+Sans+SC:wght@300;400&amp;display=swap">
 <style>
 :root{
-  --night:#04100d;
-  --night-2:#071a15;
-  --mint:#cfe9d8;
-  --amber:#ffbf6b;
-  --ember:#e0574a;
-  --paper:#f2efe6;
-  --serif:"Cormorant Garamond","Noto Serif SC",Georgia,"Songti SC",serif;
-  --sans:"Noto Sans SC",-apple-system,"Segoe UI","PingFang SC",sans-serif;
+  --rose:#ffb3d4;
+  --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+  --script:"Great Vibes","Cormorant Garamond",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC",-apple-system,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  background:var(--night);
-  color:var(--paper);
+  background:#0a0310;
+  color:#ffe6f1;
   font-family:var(--sans);
   overflow:hidden;
   -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
 }
-#scene{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  touch-action:none;
-  cursor:grab;
-}
-#scene:active{cursor:grabbing}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
 .vignette{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:radial-gradient(125% 95% at 64% 60%,rgba(4,16,13,0) 36%,rgba(2,7,5,.62) 100%);
+  position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(120% 100% at 38% 55%,rgba(10,3,16,0) 28%,rgba(6,2,10,.74) 100%);
 }
 .grain{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.13;
-  mix-blend-mode:soft-light;
+  position:fixed;inset:0;pointer-events:none;opacity:.1;mix-blend-mode:soft-light;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.7'/></svg>");
   background-size:140px 140px;
 }
-.stage{
-  position:relative;
-  z-index:3;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:clamp(18px,3.2vw,38px) clamp(18px,3.2vw,44px) clamp(22px,3.6vw,40px);
-  pointer-events:none;
-}
-.top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:16px;
-}
-.brand{display:flex;align-items:flex-start;gap:11px}
-.mark{
-  width:30px;
-  height:30px;
-  flex:none;
-  color:var(--amber);
-  opacity:.92;
-  margin-top:1px;
-}
-.brand h1{
-  margin:0;
-  font-family:var(--serif);
-  font-weight:600;
-  font-size:19px;
-  line-height:1.15;
-  letter-spacing:.2em;
-  color:#f6f2e8;
-}
-.brand .sub{
-  margin:6px 0 0;
-  font-size:11px;
-  line-height:1.5;
-  letter-spacing:.1em;
-  color:rgba(207,233,216,.6);
-  font-weight:300;
-}
 .controls{
+  position:fixed;
+  top:clamp(12px,2vw,22px);
+  right:clamp(12px,2vw,24px);
+  z-index:5;
   display:flex;
   align-items:center;
   gap:2px;
   pointer-events:auto;
-  margin-top:-6px;
 }
 .btn{
-  appearance:none;
-  -webkit-appearance:none;
-  background:none;
-  border:0;
-  padding:0 9px;
-  min-height:44px;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  color:rgba(238,244,236,.74);
-  font-family:var(--sans);
-  font-size:12px;
-  font-weight:400;
-  letter-spacing:.06em;
-  cursor:pointer;
-  transition:color .18s ease,opacity .18s ease;
+  appearance:none;-webkit-appearance:none;background:none;border:0;
+  min-height:44px;padding:0 9px;display:inline-flex;align-items:center;gap:6px;
+  color:rgba(255,226,240,.62);font-family:var(--sans);font-size:12px;letter-spacing:.06em;
+  cursor:pointer;transition:color .18s ease,opacity .18s ease;
 }
-.btn svg{width:14px;height:14px;flex:none;opacity:.85}
-.btn:hover{color:var(--amber)}
-.btn:focus-visible{outline:1px solid rgba(255,191,107,.75);outline-offset:1px}
-.btn[aria-pressed="false"]{opacity:.42}
-.bottom{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:20px;
+.btn svg{width:14px;height:14px;opacity:.85}
+.btn:hover{color:var(--rose)}
+.btn:focus-visible{outline:1px solid rgba(255,179,212,.7);outline-offset:1px}
+.btn[aria-pressed="false"]{opacity:.4}
+
+.verse{
+  position:fixed;
+  z-index:4;
+  right:clamp(20px,5vw,84px);
+  top:50%;
+  transform:translateY(-50%);
+  width:min(430px,40vw);
+  pointer-events:none;
 }
-.foot{max-width:min(560px,52vw)}
-.rule{
-  width:44px;
-  height:1px;
-  margin-bottom:clamp(12px,2vw,20px);
-  background:linear-gradient(90deg,rgba(255,191,107,.95),rgba(255,191,107,0));
-}
-.foot h2{
+.script{
   margin:0;
-  font-family:var(--serif);
-  font-weight:700;
-  font-size:clamp(36px,6vw,74px);
-  line-height:1.02;
-  letter-spacing:.1em;
-  color:#fbf7ee;
-  text-shadow:0 2px 34px rgba(4,16,13,.6);
-}
-.foot .en{
-  margin:8px 0 0;
-  font-family:var(--serif);
-  font-style:italic;
-  font-weight:500;
-  font-size:clamp(15px,1.5vw,20px);
-  letter-spacing:.03em;
-  color:rgba(242,239,230,.7);
-}
-.foot .hint{
-  margin:clamp(12px,2vw,18px) 0 0;
-  font-size:12.5px;
-  font-weight:300;
-  line-height:1.85;
+  font-family:var(--script);
+  font-size:clamp(32px,4.2vw,58px);
+  line-height:1.06;
+  color:#ffc0dc;
   letter-spacing:.02em;
-  color:rgba(207,233,216,.66);
-  max-width:24em;
+  text-shadow:0 0 26px rgba(255,105,175,.5),0 0 64px rgba(255,90,160,.28);
 }
-.foot .count{
-  margin:4px 0 0;
-  font-size:12.5px;
+.meta{
+  margin:10px 0 0;
+  padding-left:2px;
+  font-family:var(--serif);
+  font-weight:300;
+  font-size:11.5px;
+  letter-spacing:.2em;
+  color:rgba(255,203,225,.56);
+}
+.lines{
+  margin:clamp(22px,3.5vw,34px) 0 0;
+  padding:0;
+  list-style:none;
+  font-family:var(--serif);
   font-weight:400;
-  letter-spacing:.06em;
-  color:rgba(255,191,107,.82);
-  font-variant-numeric:tabular-nums;
+  font-size:clamp(15px,1.55vw,19px);
+  line-height:2.15;
+  letter-spacing:.3em;
+  color:rgba(255,234,243,.92);
+  text-shadow:0 0 20px rgba(255,120,180,.28);
 }
-.sr{
-  position:absolute;
-  width:1px;height:1px;
-  margin:-1px;padding:0;border:0;
-  clip:rect(0 0 0 0);
-  overflow:hidden;
-  white-space:nowrap;
+.lines li{white-space:nowrap}
+.sign{
+  margin:clamp(16px,2.6vw,28px) 0 0;
+  padding-right:2px;
+  text-align:right;
+  font-family:var(--serif);
+  font-weight:300;
+  font-size:11.5px;
+  line-height:1.9;
+  letter-spacing:.16em;
+  color:rgba(255,203,225,.5);
 }
-@media (max-width:760px){
-  .stage{padding:16px 18px 22px}
-  .brand .sub{display:none}
-  .brand h1{font-size:16px;letter-spacing:.18em}
+.sign b{font-weight:400;color:rgba(255,214,233,.68);letter-spacing:.2em}
+.version{
+  position:fixed;
+  left:clamp(14px,2.4vw,26px);
+  bottom:clamp(12px,2vw,20px);
+  z-index:4;
+  font-family:var(--sans);
+  font-size:10.5px;
+  letter-spacing:.16em;
+  color:rgba(255,203,225,.3);
+  pointer-events:none;
+}
+@media (max-width:820px){
+  .verse{
+    top:auto;bottom:0;left:0;right:0;width:auto;transform:none;
+    padding:0 22px calc(16px + env(safe-area-inset-bottom));
+  }
+  .script{font-size:clamp(28px,7.6vw,40px)}
+  .meta{font-size:10.5px;letter-spacing:.14em}
+  .lines{margin-top:12px;font-size:13px;line-height:1.95;letter-spacing:.24em}
+  .sign{margin-top:10px;font-size:10.5px}
   .btn span{display:none}
   .btn{padding:0 7px}
-  .foot{max-width:88vw}
-  .foot .hint{max-width:24em;font-size:12px}
-  .vignette{background:radial-gradient(140% 80% at 50% 45%,rgba(4,16,13,0) 30%,rgba(2,7,5,.7) 100%)}
+  .vignette{background:radial-gradient(140% 85% at 50% 38%,rgba(10,3,16,0) 24%,rgba(6,2,10,.8) 100%)}
+  .version{display:none}
 }
-@media (prefers-reduced-motion:reduce){
-  .btn{transition:none}
-}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
 </style>
 </head>
 <body>
-<canvas id="scene" aria-label="由光丝编成的圣诞树动画" role="img"></canvas>
+<canvas id="scene" aria-label="紫夜里的星屑圣诞树动画" role="img"></canvas>
 <div class="vignette" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
-<main class="stage">
-  <header class="top">
-    <div class="brand">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 4.5l3.4 10.6 10.8.2-8.7 6.3 3.4 10.6-8.9-6.3-8.9 6.3 3.4-10.6-8.7-6.3 10.8-.2z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" opacity=".8"/>
-        <circle cx="20" cy="20.6" r="2.1" fill="currentColor" opacity=".9"/>
-      </svg>
-      <div>
-        <h1>光织</h1>
-        <p class="sub">圣诞树 v17.6 · 光丝编织，长夜生辉</p>
-      </div>
-    </div>
+<div class="controls" role="group" aria-label="场景开关">
+  <button class="btn" id="btn-fire" aria-pressed="true" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l1.3 5.4 5.4 1.3-5.4 1.3-1.3 5.4-1.3-5.4-5.4-1.3 5.4-1.3zM18.4 14.4l.7 2.6 2.6.7-2.6.7-.7 2.6-.7-2.6-2.6-.7 2.6-.7z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+    <span>烟花</span>
+  </button>
+  <button class="btn" id="btn-sound" aria-pressed="false" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.6v12.8L7.4 14.5H4z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M16 9.4a3.6 3.6 0 010 5.2M18.6 6.9a7.6 7.6 0 010 10.2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <span>铃声</span>
+  </button>
+  <button class="btn" id="btn-full" aria-pressed="false" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <span>全屏</span>
+  </button>
+</div>
 
-    <div class="controls" role="group" aria-label="场景开关">
-      <button class="btn" id="btn-snow" aria-pressed="true" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9M12 3l-2.2 2.6M12 3l2.2 2.6M12 21l-2.2-2.6M12 21l2.2-2.6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <span>飘雪</span>
-      </button>
-      <button class="btn" id="btn-sound" aria-pressed="false" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.4L12 5.6v12.8L7.4 14.5H4z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M16 9.4a3.6 3.6 0 010 5.2M18.6 6.9a7.6 7.6 0 010 10.2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <span>铃声</span>
-      </button>
-      <button class="btn" id="btn-full" aria-pressed="false" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <span>全屏</span>
-      </button>
-    </div>
-  </header>
+<section class="verse">
+  <h1 class="script">Merry Christmas</h1>
+  <p class="meta">愿圣诞的星光，落进你眼底 · 2026</p>
+  <ul class="lines">
+    <li>亲爱的你</li>
+    <li>圣诞快乐</li>
+    <li>愿所有的美好都如约而至</li>
+  </ul>
+  <p class="sign">—— 爱你的我<br><b>2026.12.25</b></p>
+</section>
 
-  <footer class="bottom">
-    <div class="foot">
-      <div class="rule" aria-hidden="true"></div>
-      <h2>圣诞快乐</h2>
-      <p class="en">Merry Christmas &amp; a bright winter</p>
-      <p class="hint">拖动树身让它转身，轻点让光往上跑。</p>
-      <p class="count" id="count">距圣诞还有 29 天</p>
-    </div>
-  </footer>
-</main>
+<p class="version">christmas-tree v17.6</p>
 
 <script>
 (function () {
@@ -256,263 +182,321 @@ body{
 
   var W = 0, H = 0, DPR = 1, S = 0, CX = 0, BASEY = 0, mobile = false;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var PNOW = window.performance && window.performance.now ? function () { return window.performance.now(); } : function () { return Date.now(); };
+  var PNOW = (window.performance && window.performance.now)
+    ? function () { return window.performance.now(); }
+    : function () { return Date.now(); };
 
   var state = {
-    rot: -0.42, vel: 0, dragging: false, lastX: 0, moved: 0,
-    snow: true, sound: false, waveAt: -9,
-    t0: PNOW(), last: PNOW()
+    sway: 0, spin: 0, vel: 0, dragging: false, lastX: 0, moved: 0,
+    fire: true, sound: false, t0: PNOW(), last: PNOW(), burstAt: 0
   };
 
-  /* ---------- 树几何：单位空间里 树顶 y=1、树底 y=0、底半径约 0.34 ---------- */
-  var THREADS = 64, SEG = 26, RAD = 0.34;
-  var threads = [], orns = [];
-  var px = new Float32Array(SEG + 1), py = new Float32Array(SEG + 1);
-
-  (function build() {
-    for (var i = 0; i < THREADS; i++) {
-      var a0 = (i / THREADS) * Math.PI * 2;
-      var twist = (i % 5 === 0) ? 2.55 : 2.15;
-      var warm = (i % 5 === 2);
-      var pts = [];
-      for (var j = 0; j <= SEG; j++) {
-        var t = j / SEG;
-        var ang = a0 + twist * Math.PI * t;
-        var rr = RAD * Math.pow(t, 0.9) * (1 + 0.055 * Math.sin(t * Math.PI * 9 + i * 1.7));
-        pts.push({ x: Math.cos(ang) * rr, y: 1 - t, z: Math.sin(ang) * rr });
-      }
-      threads.push({ pts: pts, warm: warm, ph: Math.random() * 6.283, sp: 0.3 + Math.random() * 0.4 });
-    }
-    var palette = ["255,201,120", "255,201,120", "255,244,220", "255,143,122", "184,240,212"];
-    for (var k = 0; k < 56; k++) {
-      orns.push({
-        th: Math.floor(Math.random() * THREADS),
-        idx: Math.round((0.16 + Math.random() * 0.8) * SEG),
-        col: palette[Math.floor(Math.random() * palette.length)],
-        size: 1.6 + Math.random() * 2.1,
-        ph: Math.random() * 6.283,
-        sp: 0.7 + Math.random() * 1.5
-      });
-    }
-  })();
-
-  /* ---------- 飘雪 ---------- */
-  var sprite = (function () {
+  /* ---------- 光点贴图 ---------- */
+  function makeSprite(rgb, soft) {
     var s = document.createElement("canvas");
     s.width = 64; s.height = 64;
     var g = s.getContext("2d");
     var rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
     rg.addColorStop(0, "rgba(255,255,255,1)");
-    rg.addColorStop(0.32, "rgba(240,250,245,0.55)");
-    rg.addColorStop(1, "rgba(240,250,245,0)");
+    rg.addColorStop(soft, "rgba(" + rgb + ",0.9)");
+    rg.addColorStop(1, "rgba(" + rgb + ",0)");
     g.fillStyle = rg;
     g.fillRect(0, 0, 64, 64);
     return s;
-  })();
+  }
+  var SP = {
+    rose: makeSprite("255,110,180", 0.22),
+    violet: makeSprite("182,108,236", 0.26),
+    plum: makeSprite("146,64,196", 0.3),
+    gold: makeSprite("255,212,152", 0.2),
+    white: makeSprite("255,244,250", 0.18)
+  };
 
-  var flakes = [];
-  function seedSnow() {
-    flakes.length = 0;
-    var n = mobile ? 64 : 122;
-    for (var i = 0; i < n; i++) {
-      flakes.push({
-        x: Math.random(), y: Math.random(), d: Math.random(),
-        r: 0.6 + Math.random() * 2.3,
-        ph: Math.random() * 6.283,
-        sway: 0.4 + Math.random() * 0.9,
-        vy: 1.4 + Math.random() * 4.2
+  function dot(c, img, x, y, r, alpha) {
+    if (r <= 0 || alpha <= 0) return;
+    c.globalAlpha = alpha > 1 ? 1 : alpha;
+    c.drawImage(img, x - r, y - r, r * 2, r * 2);
+  }
+
+  /* ---------- 树的粒子几何 ---------- */
+  var R = 0.395, TURNS = 7.6;
+  var dust = [], beads = [], ring = [], updraft = [];
+
+  function build() {
+    dust.length = 0; beads.length = 0; ring.length = 0; updraft.length = 0;
+    var nDust = mobile ? 480 : 820;
+    var cols = [SP.rose, SP.violet, SP.plum, SP.rose];
+
+    for (var i = 0; i < nDust; i++) {
+      var t = Math.pow(Math.random(), 0.62);
+      var a = Math.random() * Math.PI * 2;
+      var f = 0.5 + Math.random() * 0.5;
+      var rr = R * Math.pow(t, 0.93) * f;
+      dust.push({
+        x: Math.cos(a) * rr, y: 1 - t, z: Math.sin(a) * rr,
+        s: 0.75 + Math.random() * 1.75,
+        img: cols[Math.floor(Math.random() * cols.length)],
+        ph: Math.random() * 6.283, sp: 0.5 + Math.random() * 1.6
+      });
+    }
+
+    var nBead = mobile ? 430 : 700;
+    for (var j = 0; j < nBead; j++) {
+      var tb = 0.015 + (j / nBead) * 0.975;
+      var ab = tb * TURNS * Math.PI * 2;
+      var rb = R * Math.pow(tb, 0.95) + 0.004;
+      beads.push({
+        x: Math.cos(ab) * rb, y: 1 - tb, z: Math.sin(ab) * rb,
+        t: tb, s: 1.25 + Math.random() * 0.55
+      });
+    }
+
+    var nRing = mobile ? 44 : 66;
+    for (var k = 0; k < nRing; k++) {
+      var ar = (k / nRing) * Math.PI * 2 + 0.2;
+      ring.push({ a: ar, s: 0.9 + Math.random() * 1.1 });
+    }
+
+    var nUp = mobile ? 26 : 46;
+    for (var q = 0; q < nUp; q++) {
+      var ta = Math.random();
+      var aa = Math.random() * Math.PI * 2;
+      var ra = R * Math.pow(ta, 0.9) * (0.3 + Math.random() * 0.6);
+      updraft.push({
+        x: Math.cos(aa) * ra, y: 1 - ta, z: Math.sin(aa) * ra,
+        vy: 0.02 + Math.random() * 0.05, s: 0.8 + Math.random() * 1.4,
+        ph: Math.random() * 6.283
       });
     }
   }
 
-  function updateSnow(dt) {
-    for (var i = 0; i < flakes.length; i++) {
-      var f = flakes[i];
-      f.y += (f.vy * (0.35 + f.d * 1.2)) * dt / H;
-      if (f.y > 1.04) { f.y = -0.04; f.x = Math.random(); }
-    }
-  }
-
-  function drawSnow(c, t, front) {
-    if (!state.snow) return;
-    for (var i = 0; i < flakes.length; i++) {
-      var f = flakes[i];
-      var isFront = f.d > 0.52;
-      if (isFront !== front) continue;
-      var x = (f.x * W) + Math.sin(t * f.sway + f.ph) * 16 * (0.4 + f.d);
-      var y = f.y * H;
-      var size = (1.6 + f.r * 2.1) * (0.7 + f.d * 1.9);
-      c.globalAlpha = (0.10 + 0.55 * f.d) * (front ? 1 : 0.62);
-      c.drawImage(sprite, x - size, y - size, size * 2, size * 2);
-    }
-    c.globalAlpha = 1;
-  }
-
   /* ---------- 夜空底板 ---------- */
+  var skyStars = [];
   function buildSky() {
     skyCvs.width = Math.max(1, Math.floor(W * DPR));
     skyCvs.height = Math.max(1, Math.floor(H * DPR));
     skyCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
     var g = skyCtx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, "#03100c");
-    g.addColorStop(0.48, "#071b16");
-    g.addColorStop(1, "#010806");
+    g.addColorStop(0, "#090310");
+    g.addColorStop(0.34, "#180a22");
+    g.addColorStop(0.56, "#2b0f26");
+    g.addColorStop(0.66, "#3d1530");
+    g.addColorStop(0.74, "#230b1c");
+    g.addColorStop(1, "#120518");
     skyCtx.fillStyle = g;
     skyCtx.fillRect(0, 0, W, H);
 
-    var rg = skyCtx.createRadialGradient(CX, BASEY - S * 0.42, H * 0.01, CX, BASEY - S * 0.42, H * 0.74);
-    rg.addColorStop(0, "rgba(42,102,82,0.32)");
-    rg.addColorStop(0.42, "rgba(20,56,46,0.14)");
-    rg.addColorStop(1, "rgba(3,14,11,0)");
-    skyCtx.fillStyle = rg;
+    /* 地平线雾光 */
+    var haze = skyCtx.createRadialGradient(CX, H * 0.66, 4, CX, H * 0.66, W * 0.7);
+    haze.addColorStop(0, "rgba(255,120,190,0.15)");
+    haze.addColorStop(0.45, "rgba(150,60,160,0.07)");
+    haze.addColorStop(1, "rgba(80,20,90,0)");
+    skyCtx.fillStyle = haze;
     skyCtx.fillRect(0, 0, W, H);
 
-    skyCtx.save();
-    skyCtx.translate(CX, BASEY + 8);
-    skyCtx.scale(1, 0.3);
-    var eg = skyCtx.createRadialGradient(0, 0, 2, 0, 0, S * 0.68);
-    eg.addColorStop(0, "rgba(255,178,96,0.26)");
-    eg.addColorStop(0.5, "rgba(226,120,72,0.09)");
-    eg.addColorStop(1, "rgba(255,178,96,0)");
-    skyCtx.fillStyle = eg;
-    skyCtx.beginPath();
-    skyCtx.arc(0, 0, S * 0.68, 0, 6.2832);
-    skyCtx.fill();
-    skyCtx.restore();
+    /* 远山剪影 */
+    function hills(baseY, amp, color, seed) {
+      skyCtx.beginPath();
+      skyCtx.moveTo(0, H);
+      for (var x = 0; x <= W; x += 8) {
+        var y = baseY + Math.sin(x / W * 3.4 + seed) * amp
+          + Math.sin(x / W * 11 + seed * 2) * amp * 0.34;
+        skyCtx.lineTo(x, y);
+      }
+      skyCtx.lineTo(W, H);
+      skyCtx.closePath();
+      skyCtx.fillStyle = color;
+      skyCtx.fill();
+    }
+    hills(H * 0.685, 14, "rgba(28,9,26,0.9)", 0.6);
+    hills(H * 0.71, 9, "rgba(14,4,14,0.95)", 2.2);
+
+    /* 星点 */
+    skyStars.length = 0;
+    var nStar = mobile ? 160 : 260;
+    for (var i = 0; i < nStar; i++) {
+      var sx = Math.random() * W;
+      var sy = Math.random() * H * 0.62;
+      var r = 0.25 + Math.random() * 0.8;
+      var a = 0.15 + Math.random() * 0.55;
+      skyCtx.globalAlpha = a;
+      skyCtx.fillStyle = Math.random() > 0.7 ? "#ffd9ec" : "#efe6ff";
+      skyCtx.beginPath();
+      skyCtx.arc(sx, sy, r, 0, 6.2832);
+      skyCtx.fill();
+      if (i % 5 === 0) {
+        skyStars.push({ x: sx, y: sy, r: r * 1.3, ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.2 });
+      }
+    }
+    skyCtx.globalAlpha = 1;
   }
 
-  /* ---------- 画树 ---------- */
-  function drawThreads(c, t, cosR, sinR) {
-    var wave = t - state.waveAt;
+  /* ---------- 烟花 ---------- */
+  var fw = [];
+  function spawnFirework(x, y) {
+    var n = mobile ? 44 : 72;
+    var ps = [];
+    for (var i = 0; i < n; i++) {
+      ps.push({
+        a: Math.random() * Math.PI * 2,
+        sp: 0.3 + Math.random() * 0.9,
+        b: 0.6 + Math.random() * 0.6
+      });
+    }
+    fw.push({
+      x: x, y: y, t: 0, life: 1.4 + Math.random() * 0.9,
+      whiten: Math.random() > 0.6, ps: ps
+    });
+  }
 
-    for (var i = 0; i < threads.length; i++) {
-      var th = threads[i];
-      var pts = th.pts, zsum = 0;
-
-      for (var j = 0; j <= SEG; j++) {
-        var p = pts[j];
-        var xr = p.x * cosR - p.z * sinR;
-        var zr = p.x * sinR + p.z * cosR;
-        var k = 3.0 / (3.0 + zr * 0.85);
-        px[j] = CX + xr * S * k;
-        py[j] = BASEY - p.y * S * k;
-        zsum += zr;
+  function drawFireworks(c, dt) {
+    for (var i = fw.length - 1; i >= 0; i--) {
+      var b = fw[i];
+      b.t += dt;
+      var p = b.t / b.life;
+      if (p >= 1) { fw.splice(i, 1); continue; }
+      var ease = 1 - Math.pow(1 - p, 2.1);
+      var spread = S * 0.44 * ease;
+      var fade = Math.pow(1 - p, 1.7);
+      var grav = S * 0.1 * p * p;
+      for (var j = 0; j < b.ps.length; j++) {
+        var q = b.ps[j];
+        var dx = Math.cos(q.a) * spread * q.sp;
+        var dy = Math.sin(q.a) * spread * q.sp * 0.86 + grav;
+        var img = q.b > 1.05 ? SP.white : (b.whiten ? SP.white : SP.rose);
+        dot(c, img, b.x + dx, b.y + dy, (1.1 + 1.6 * fade) * (q.b > 1.05 ? 1.15 : 1), fade * 0.85);
       }
-
-      var depth = zsum / (SEG + 1);
-      var vis = 0.55 - depth * 1.15;
-      if (vis < 0.3) vis = 0.3;
-      if (vis > 1) vis = 1;
-
-      var breathe = 0.5 + 0.5 * Math.sin(t * th.sp * 1.7 + th.ph);
-      var alpha = (0.15 + 0.18 * breathe) * vis;
-      c.strokeStyle = th.warm
-        ? "rgba(255,190,120," + alpha.toFixed(3) + ")"
-        : "rgba(178,236,208," + alpha.toFixed(3) + ")";
-      c.lineWidth = 0.9 + 0.5 * vis;
-      c.beginPath();
-      c.moveTo(px[0], py[0]);
-      for (var m = 1; m <= SEG; m++) c.lineTo(px[m], py[m]);
-      c.stroke();
-
-      /* 沿枝游走的光点 */
-      var head = (t * 0.5 * th.sp + th.ph) % 1;
-      var hi = Math.floor(head * SEG);
-      var seg = Math.min(4, SEG - hi);
-      if (seg > 1) {
-        c.strokeStyle = th.warm ? "rgba(255,208,146,0.5)" : "rgba(222,255,240,0.46)";
-        c.lineWidth = 1.7;
-        c.beginPath();
-        c.moveTo(px[hi], py[hi]);
-        for (var q = 1; q <= seg; q++) c.lineTo(px[hi + q], py[hi + q]);
-        c.stroke();
-        var hx = px[hi + seg], hy = py[hi + seg];
-        c.fillStyle = "rgba(255,238,204,0.8)";
-        c.beginPath();
-        c.arc(hx, hy, 1.35, 0, 6.2832);
-        c.fill();
-      }
-
-      /* 点击后从底部往上跑的一道光 */
-      if (wave >= 0 && wave < 2.2) {
-        var prog = wave / 0.8 - i * 0.0045;
-        if (prog > 0 && prog < 1.12) {
-          var wi = Math.floor(Math.min(1, prog) * (SEG - 3)) + 1;
-          c.strokeStyle = "rgba(255,242,210,0.92)";
-          c.lineWidth = 2.6;
-          c.beginPath();
-          c.moveTo(px[wi], py[wi]);
-          c.lineTo(px[Math.min(SEG, wi + 3)], py[Math.min(SEG, wi + 3)]);
-          c.stroke();
-          c.fillStyle = "rgba(255,246,222,0.95)";
-          c.beginPath();
-          c.arc(px[Math.min(SEG, wi + 3)], py[Math.min(SEG, wi + 3)], 2.6, 0, 6.2832);
-          c.fill();
-        }
-      }
+      /* 核心闪光 */
+      dot(c, SP.white, b.x, b.y, (6 + 14 * fade) * (W > 900 ? 1.1 : 0.8), fade * 0.55);
     }
   }
 
-  function drawOrnaments(c, t, cosR, sinR) {
-    for (var i = 0; i < orns.length; i++) {
-      var o = orns[i];
-      var p = threads[o.th].pts[o.idx];
-      var xr = p.x * cosR - p.z * sinR;
-      var zr = p.x * sinR + p.z * cosR;
+  /* ---------- 主渲染 ---------- */
+  function drawTree(c, t, cosR, sinR) {
+    /* 中心光柱 */
+    var beam = c.createLinearGradient(0, BASEY - S, 0, BASEY);
+    beam.addColorStop(0, "rgba(255,190,230,0)");
+    beam.addColorStop(0.3, "rgba(255,150,205,0.08)");
+    beam.addColorStop(0.8, "rgba(255,160,210,0.16)");
+    beam.addColorStop(1, "rgba(255,205,235,0.05)");
+    c.fillStyle = beam;
+    c.fillRect(CX - S * 0.07, BASEY - S, S * 0.14, S);
+
+    /* 粒子 */
+    for (var i = 0; i < dust.length; i++) {
+      var d = dust[i];
+      var xr = d.x * cosR - d.z * sinR;
+      var zr = d.x * sinR + d.z * cosR;
       var k = 3.0 / (3.0 + zr * 0.85);
       var sx = CX + xr * S * k;
-      var sy = BASEY - p.y * S * k;
-      var vis = 0.55 - zr * 1.15;
+      var sy = BASEY - d.y * S * k;
+      if (sx < -20 || sx > W + 20) continue;
+      var vis = 0.5 - zr * 1.05;
       if (vis < 0.35) vis = 0.35;
-      var b = 0.5 + 0.5 * Math.sin(t * o.sp + o.ph);
-      var r = o.size * k * (0.85 + 0.2 * b);
-      c.fillStyle = "rgba(" + o.col + "," + (0.1 * b * vis).toFixed(3) + ")";
-      c.beginPath();
-      c.arc(sx, sy, r * 3.6, 0, 6.2832);
-      c.fill();
-      c.fillStyle = "rgba(" + o.col + "," + (0.8 * (0.45 + 0.55 * b) * vis).toFixed(3) + ")";
-      c.beginPath();
-      c.arc(sx, sy, r, 0, 6.2832);
-      c.fill();
+      var tw = 0.55 + 0.45 * Math.sin(t * d.sp + d.ph);
+      dot(c, d.img, sx, sy, d.s * k * (1.2 + 0.45 * tw), (0.36 + 0.52 * tw) * vis);
     }
+
+    /* 螺旋光珠 */
+    for (var j = 0; j < beads.length; j++) {
+      var b = beads[j];
+      var bx = b.x * cosR - b.z * sinR;
+      var bz = b.x * sinR + b.z * cosR;
+      var bk = 3.0 / (3.0 + bz * 0.85);
+      var bxs = CX + bx * S * bk;
+      var bys = BASEY - b.y * S * bk;
+      if (bxs < -20 || bxs > W + 20) continue;
+      var bvis = 0.55 - bz * 1.05;
+      if (bvis < 0.4) bvis = 0.4;
+      var wave = 0.6 + 0.4 * Math.sin(b.t * 34 - t * 4.4);
+      dot(c, SP.gold, bxs, bys, b.s * bk * 1.7, (0.35 + 0.6 * wave) * bvis);
+      dot(c, SP.white, bxs, bys, b.s * bk * 0.55, 0.55 * wave * bvis);
+    }
+
+    /* 底座星环 */
+    for (var m = 0; m < ring.length; m++) {
+      var r = ring[m];
+      var rx = Math.cos(r.a);
+      var rz = Math.sin(r.a);
+      var rxs = CX + (rx * cosR - rz * sinR) * R * S;
+      var rys = BASEY + (rx * sinR + rz * cosR) * R * S * 0.16 - 2;
+      var rw = 0.35 + 0.65 * Math.pow(Math.max(0, Math.sin(t * 1.4 + r.a * 1.4)), 2);
+      dot(c, SP.gold, rxs, rys, r.s * 2.6, 0.5 * rw);
+    }
+
+    /* 上升的星屑 */
+    for (var u = 0; u < updraft.length; u++) {
+      var up = updraft[u];
+      var uy = up.y + (t * up.vy * 4) % 1.2;
+      if (uy > 1.15) uy = uy - 1.2;
+      var uxr = up.x * cosR - up.z * sinR;
+      var uzr = up.x * sinR + up.z * cosR;
+      var uk = 3.0 / (3.0 + uzr * 0.85);
+      var uxs = CX + uxr * S * uk;
+      var uys = BASEY - uy * S * uk;
+      var ua = 0.25 + 0.55 * Math.pow(Math.max(0, Math.sin(t * 1.2 + up.ph)), 2);
+      dot(c, SP.white, uxs, uys, up.s * 1.5, ua * 0.7);
+    }
+  }
+
+  function drawGround(c, t) {
+    c.save();
+    c.translate(CX, BASEY + 8);
+    c.scale(1, 0.3);
+    var g = c.createRadialGradient(0, 0, 2, 0, 0, S * 0.55);
+    g.addColorStop(0, "rgba(255,235,242,0.6)");
+    g.addColorStop(0.22, "rgba(255,170,212,0.26)");
+    g.addColorStop(0.6, "rgba(220,110,190,0.07)");
+    g.addColorStop(1, "rgba(200,90,180,0)");
+    c.fillStyle = g;
+    c.beginPath();
+    c.arc(0, 0, S * 0.55, 0, 6.2832);
+    c.fill();
+    c.restore();
   }
 
   function drawStar(c, t) {
-    var sx = CX, sy = BASEY - S * 1.03;
-    var rs = S * 0.05;
-    var pulse = 0.9 + 0.1 * Math.sin(t * 1.6);
+    var x = CX, y = BASEY - S * 1.02;
+    var pulse = 0.94 + 0.06 * Math.sin(t * 2.2);
+    var rs = S * 0.042 * pulse;
 
-    var halo = c.createRadialGradient(sx, sy, 1, sx, sy, rs * 4.2);
-    halo.addColorStop(0, "rgba(255,226,168,0.5)");
-    halo.addColorStop(0.4, "rgba(255,190,110,0.16)");
-    halo.addColorStop(1, "rgba(255,190,110,0)");
+    var halo = c.createRadialGradient(x, y, 1, x, y, rs * 5);
+    halo.addColorStop(0, "rgba(255,238,246,0.75)");
+    halo.addColorStop(0.28, "rgba(255,170,210,0.22)");
+    halo.addColorStop(1, "rgba(255,140,195,0)");
     c.fillStyle = halo;
     c.beginPath();
-    c.arc(sx, sy, rs * 4.2, 0, 6.2832);
+    c.arc(x, y, rs * 5, 0, 6.2832);
     c.fill();
 
-    for (var i = 0; i < 8; i++) {
-      var ang = i * Math.PI / 4 + Math.sin(t * 0.25) * 0.06;
-      var len = (i % 2 === 0 ? 1.5 : 0.72) * rs * 2 * pulse;
-      var wid = (i % 2 === 0 ? 0.11 : 0.06) * rs;
+    for (var i = 0; i < 4; i++) {
+      var ang = i * Math.PI / 2 + Math.sin(t * 0.3) * 0.04;
+      var len = rs * (i % 2 === 0 ? 2.6 : 1.2);
+      var wid = rs * 0.12;
       var dx = Math.cos(ang), dy = Math.sin(ang);
-      c.fillStyle = i % 2 === 0 ? "rgba(255,247,224,0.92)" : "rgba(255,226,178,0.7)";
+      c.fillStyle = "rgba(255,250,253,0.92)";
       c.beginPath();
-      c.moveTo(sx + dx * len, sy + dy * len);
-      c.lineTo(sx - dy * wid, sy + dx * wid);
-      c.lineTo(sx + dy * wid, sy - dx * wid);
+      c.moveTo(x + dx * len, y + dy * len);
+      c.lineTo(x - dy * wid, y + dx * wid);
+      c.lineTo(x + dy * wid, y - dx * wid);
       c.closePath();
       c.fill();
     }
 
-    c.fillStyle = "rgba(255,252,238,0.96)";
-    c.beginPath();
-    c.arc(sx, sy, rs * 0.42, 0, 6.2832);
-    c.fill();
+    /* 横向镜头光带 */
+    var lg = c.createLinearGradient(x - S * 0.34, 0, x + S * 0.34, 0);
+    lg.addColorStop(0, "rgba(255,230,242,0)");
+    lg.addColorStop(0.42, "rgba(255,235,246,0.32)");
+    lg.addColorStop(0.5, "rgba(255,250,252,0.72)");
+    lg.addColorStop(0.58, "rgba(255,235,246,0.32)");
+    lg.addColorStop(1, "rgba(255,230,242,0)");
+    c.fillStyle = lg;
+    c.fillRect(x - S * 0.34, y - 0.9, S * 0.68, 1.8);
+
+    dot(c, SP.white, x, y, rs * 0.4, 0.95);
   }
 
-  /* ---------- 渲染主循环 ---------- */
   function frame(now) {
     var t = (now - state.t0) / 1000;
     var dt = (now - state.last) / 1000;
@@ -521,30 +505,47 @@ body{
     state.last = now;
 
     if (!state.dragging && !reduced) {
-      state.rot += (0.05 + state.vel) * dt;
+      state.spin += state.vel * dt;
       state.vel *= Math.exp(-dt * 3);
       if (Math.abs(state.vel) < 0.0008) state.vel = 0;
+      state.sway = Math.sin(t * 0.16) * 0.09;
     }
-    updateSnow(dt);
-
-    var cosR = Math.cos(state.rot), sinR = Math.sin(state.rot);
+    var rot = state.sway + state.spin + 0.55;
+    var cosR = Math.cos(rot), sinR = Math.sin(rot);
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
     ctx.drawImage(skyCvs, 0, 0, W, H);
 
-    drawSnow(ctx, t, false);
-
+    /* 微亮星点闪烁 */
     ctx.globalCompositeOperation = "lighter";
-    drawThreads(ctx, t, cosR, sinR);
-    drawOrnaments(ctx, t, cosR, sinR);
+    for (var s = 0; s < skyStars.length; s++) {
+      var st = skyStars[s];
+      var a = 0.12 + 0.5 * Math.pow(Math.max(0, Math.sin(t * st.sp + st.ph)), 3);
+      dot(ctx, SP.white, st.x, st.y, st.r * 2.2, a);
+    }
+
+    drawGround(ctx, t);
+    drawTree(ctx, t, cosR, sinR);
     drawStar(ctx, t);
+
+    if (state.fire && t - state.burstAt > 2.6) {
+      state.burstAt = t;
+      var n = Math.random() > 0.5 ? 2 : 1;
+      for (var f = 0; f < n; f++) {
+        spawnFirework(
+          W * (0.08 + Math.random() * 0.36),
+          H * (0.1 + Math.random() * 0.26)
+        );
+      }
+    }
+    drawFireworks(ctx, dt);
+
     ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
 
-    drawSnow(ctx, t, true);
-
-    /* 叠一层模糊光晕，让光丝有真实的辉光扩散 */
+    /* 辉光 */
     var bw = Math.max(1, Math.floor(W * 0.45)), bh = Math.max(1, Math.floor(H * 0.45));
     if (bloomCvs.width !== bw || bloomCvs.height !== bh) {
       bloomCvs.width = bw;
@@ -552,13 +553,12 @@ body{
     }
     bctx.setTransform(1, 0, 0, 1, 0, 0);
     bctx.clearRect(0, 0, bw, bh);
-    try { bctx.filter = "blur(6px)"; } catch (e) {}
+    try { bctx.filter = "blur(7px)"; } catch (e) {}
     bctx.drawImage(cvs, 0, 0, bw, bh);
     try { bctx.filter = "none"; } catch (e2) {}
 
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.globalCompositeOperation = "lighter";
-    ctx.globalAlpha = 0.48;
+    ctx.globalAlpha = 0.55;
     ctx.drawImage(bloomCvs, 0, 0, W, H);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = "source-over";
@@ -569,7 +569,7 @@ body{
     if (!reduced) window.requestAnimationFrame(loop);
   }
 
-  /* ---------- 交互 ---------- */
+  /* ---------- 声音 ---------- */
   var actx = null;
   function chime() {
     if (!state.sound) return;
@@ -581,28 +581,24 @@ body{
       }
       if (actx.state === "suspended") actx.resume();
       var t0 = actx.currentTime;
-      var notes = [523.25, 659.25, 783.99];
+      var notes = [659.25, 880.0, 1174.66];
       for (var i = 0; i < notes.length; i++) {
         var o = actx.createOscillator();
         var g = actx.createGain();
         o.type = "sine";
         o.frequency.value = notes[i];
         g.gain.setValueAtTime(0.0001, t0);
-        g.gain.linearRampToValueAtTime(i === 0 ? 0.28 : 0.16, t0 + 0.03 + i * 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.2 + i * 0.16);
+        g.gain.linearRampToValueAtTime(i === 0 ? 0.22 : 0.12, t0 + 0.03 + i * 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.1 + i * 0.2);
         o.connect(g);
         g.connect(actx.destination);
         o.start(t0);
-        o.stop(t0 + 1.5 + i * 0.16);
+        o.stop(t0 + 1.4 + i * 0.2);
       }
     } catch (err) {}
   }
 
-  function triggerLight() {
-    state.waveAt = (PNOW() - state.t0) / 1000;
-    chime();
-  }
-
+  /* ---------- 交互 ---------- */
   cvs.addEventListener("pointerdown", function (e) {
     state.dragging = true;
     state.lastX = e.clientX;
@@ -615,10 +611,10 @@ body{
     if (!state.dragging) return;
     var dx = e.clientX - state.lastX;
     state.lastX = e.clientX;
-    state.rot += dx * 0.006;
+    state.spin += dx * 0.006;
     state.vel = dx * 0.006 * 60;
-    if (state.vel > 3.2) state.vel = 3.2;
-    if (state.vel < -3.2) state.vel = -3.2;
+    if (state.vel > 3) state.vel = 3;
+    if (state.vel < -3) state.vel = -3;
     state.moved += Math.abs(dx);
   });
 
@@ -626,26 +622,27 @@ body{
     if (!state.dragging) return;
     state.dragging = false;
     try { cvs.releasePointerCapture(e.pointerId); } catch (err) {}
-    if (state.moved < 8) triggerLight();
+    if (state.moved < 8) {
+      spawnFirework(e.clientX, Math.min(H * 0.55, e.clientY));
+      state.burstAt = (PNOW() - state.t0) / 1000;
+      chime();
+    }
   }
   cvs.addEventListener("pointerup", endDrag);
   cvs.addEventListener("pointercancel", function () { state.dragging = false; });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowLeft") { state.rot -= 0.12; }
-    if (e.key === "ArrowRight") { state.rot += 0.12; }
-    if (e.key === " " || e.key === "Enter") {
-      if (document.activeElement === document.body) { triggerLight(); e.preventDefault(); }
-    }
+    if (e.key === "ArrowLeft") state.spin -= 0.1;
+    if (e.key === "ArrowRight") state.spin += 0.1;
   });
 
-  var btnSnow = document.getElementById("btn-snow");
+  var btnFire = document.getElementById("btn-fire");
   var btnSound = document.getElementById("btn-sound");
   var btnFull = document.getElementById("btn-full");
 
-  btnSnow.addEventListener("click", function () {
-    state.snow = !state.snow;
-    btnSnow.setAttribute("aria-pressed", state.snow ? "true" : "false");
+  btnFire.addEventListener("click", function () {
+    state.fire = !state.fire;
+    btnFire.setAttribute("aria-pressed", state.fire ? "true" : "false");
   });
 
   btnSound.addEventListener("click", function () {
@@ -667,21 +664,26 @@ body{
   });
 
   document.addEventListener("fullscreenchange", function () {
-    var on = !!(document.fullscreenElement);
-    btnFull.setAttribute("aria-pressed", on ? "true" : "false");
+    btnFull.setAttribute("aria-pressed", document.fullscreenElement ? "true" : "false");
   });
 
   /* ---------- 尺寸 ---------- */
   function resize() {
     W = window.innerWidth;
     H = window.innerHeight;
-    DPR = Math.min(window.devicePixelRatio || 1, 1.75);
-    mobile = W < 760;
+    DPR = Math.min(window.devicePixelRatio || 1, 1.6);
+    mobile = W < 820;
     cvs.width = Math.floor(W * DPR);
     cvs.height = Math.floor(H * DPR);
-    CX = mobile ? W * 0.5 : W * 0.645;
-    BASEY = mobile ? H * 0.705 : H * 0.87;
-    S = mobile ? Math.min(H * 0.52, W * 1.12) : Math.min(H * 0.69, W * 0.95);
+    if (mobile) {
+      CX = W * 0.5;
+      BASEY = H * 0.62;
+      S = Math.min(H * 0.46, W * 1.0);
+    } else {
+      CX = W * 0.34;
+      BASEY = H * 0.8;
+      S = Math.min(H * 0.68, W * 0.62);
+    }
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     buildSky();
   }
@@ -691,32 +693,17 @@ body{
     if (rt) window.clearTimeout(rt);
     rt = window.setTimeout(function () {
       resize();
-      seedSnow();
+      build();
       if (reduced) frame(PNOW());
     }, 160);
   });
 
-  /* ---------- 倒计时 ---------- */
-  (function countdown() {
-    var el = document.getElementById("count");
-    if (!el) return;
-    var now = new Date();
-    var y = now.getFullYear();
-    var today = new Date(y, now.getMonth(), now.getDate());
-    var target = new Date(y, 11, 25);
-    if (today > target) target = new Date(y + 1, 11, 25);
-    var days = Math.round((target.getTime() - today.getTime()) / 86400000);
-    el.textContent = days > 0
-      ? "距 " + target.getFullYear() + " 年圣诞还有 " + days + " 天"
-      : "今天是 " + target.getFullYear() + " 年圣诞";
-  })();
-
   /* ---------- 启动 ---------- */
   resize();
-  seedSnow();
+  build();
   state.last = PNOW();
   if (reduced) {
-    state.t0 -= 400;
+    state.t0 -= 500;
     frame(PNOW());
   } else {
     window.requestAnimationFrame(loop);
